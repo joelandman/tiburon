@@ -1,0 +1,342 @@
+{
+ "machines" : {
+	 "nfs" : [
+		 {
+			"owner" : 0,
+	          	"mountpoint" : "/data/nfs",
+			"mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+			"UUID" : "8ed0cd4a-40ae-438a-9b4e-227abffe74f4",
+			"mode" : "1777",
+			"fstype" : "xfs",
+			"group" : 0,
+			"device" : "/dev/sdc"
+		 }
+	 ],
+   "ucp-04" : [
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/1",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "09427484-3155-49d6-847b-f8588fd9dd06",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sda"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/2",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "01ab19f8-a9f7-4c78-a684-4a0eed5a7ed1",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdb"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/3",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "c4a6de20-8eb8-46d1-b9ba-43ea93e8131e",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdc"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/4",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "a2c05f22-0e34-4977-9c0a-b1d12fe3eb0a",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdd"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/ssd",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "4e21b9a3-497d-4def-8f38-665bea72aff7",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sde"
+      },
+   ],
+   "ucp-07" : [
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/1",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "45d3ddf5-c659-40a6-8d75-e075aa919344",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sda"
+      }
+   ],
+   "ucp-01" : [
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/1",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "5f28b21c-9aeb-4113-9f6f-a7002dbfd9bd",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdf"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/2",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "1b6f1cda-1f2e-405b-bb6e-d53b8cf8256c",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdg"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/3",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "796bfa3f-89e4-4d3c-ad3b-36482f6a54e0",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdh"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/4",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "947b4a45-e522-4688-9d43-343344b88ff3",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdi"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/ssd",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "728651f9-e7db-42d5-a7e7-477a113fe49e",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/md20"
+      },
+   ],
+   "ucp-03" : [
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/1",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "0e3c8aae-1696-4381-94fa-fdb44a12bed9",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sda"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/2",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "4f7c7ec5-d7b4-40e6-b626-26b60884b1ab",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdb"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/3",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "8577c197-6078-4b70-99f2-54421288f0aa",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdc"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/4",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "7a636fb6-84af-478e-a99d-a5dba8fd0514",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdd"
+      },
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/5",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,nobarrier",
+         "UUID" : "b779f698-7d67-44e4-af8d-9ea681c5403c",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sde"
+      }
+   ],
+   "usn-04" : [
+     {
+         "owner" : 0,
+         "mountpoint" : "/data/ssd",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,logbufs=8,logbsize=256k,noquota,allocsize=1024k,allocsize=1024k,nobarrier",
+         "UUID" : "3c4fdb24-4ef7-4e41-a8a0-03f138ac4e17",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/md10"
+      },
+   ],
+   "usn-03" : [
+      {
+         "owner" : 0,
+         "mountpoint" : "/data/2",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,sunit=256,swidth=2304,noquota",
+         "UUID" : "20b0bc33-6bee-4b44-9ca5-69ea3d23efae",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "group" : 0,
+         "device" : "/dev/sdb"
+      },
+      {
+         "mode" : "1777",
+         "device" : "/dev/sdd",
+         "group" : 0,
+         "fstype" : "xfs",
+         "mountpoint" : "/data/4",
+         "owner" : 0,
+         "UUID" : "7ec844f3-c8e8-4a65-9173-f84bcd48dab7",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,sunit=256,swidth=2304,noquota"
+      },
+      {
+         "mountpoint" : "/data/3",
+         "owner" : 0,
+         "UUID" : "693d643c-ca9b-4f1d-82f0-81c4ada02ec2",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,sunit=256,swidth=2304,noquota",
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "device" : "/dev/sdc",
+         "group" : 0
+      },
+      {
+         "mode" : "1777",
+         "fstype" : "xfs",
+         "device" : "/dev/sda",
+         "group" : 0,
+         "owner" : 0,
+         "mountpoint" : "/data/1",
+         "UUID" : "0d4de217-931f-4650-ba12-302ac5a4348b",
+         "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,sunit=256,swidth=2304,noquota"
+      }
+  ],
+  "usn-01" : [
+       {
+           "owner" : 0,
+           "mountpoint" : "/data/1",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "5b5af9ac-aa47-4784-b07d-626bd2f0c066",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md21"
+        },
+        {
+           "owner" : 0,
+           "mountpoint" : "/data/2",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "f89b183d-b9d7-49c8-87e4-ad6507a9cf79",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md22"
+        },
+        {
+           "owner" : 0,
+           "mountpoint" : "/data/3",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "75ab26ad-6c6b-4200-b4d4-0c77766b518f",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md23"
+        },
+        {
+           "owner" : 0,
+           "mountpoint" : "/data/4",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "b8ddc140-aa7c-4c12-bf2a-b274b2e41b04",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md24"
+        },
+	{
+           "owner" : 0,
+           "mountpoint" : "/data/5",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "6b3e58ec-de03-47aa-b9ef-19e2e7c6d02f",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md25"
+        },
+	{
+           "owner" : 0,
+           "mountpoint" : "/data/6",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "d1ad6790-3e8a-4488-8ad5-40cafbbddf2e",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md26"
+        }
+  ],
+  "usn-02" : [
+       {
+           "owner" : 0,
+           "mountpoint" : "/data/1",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "09aa77db-a076-445a-8454-7ca565b2ca99",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md11"
+        },
+                {
+           "owner" : 0,
+           "mountpoint" : "/data/2",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "c2005dd0-36dd-4388-8643-7a21d32765ad",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md12"
+        },
+        {
+           "owner" : 0,
+           "mountpoint" : "/data/3",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "4c71ed9c-88ee-4afa-93be-ba01f19417fc",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md13"
+        },
+        {
+           "owner" : 0,
+           "mountpoint" : "/data/4",
+           "mountopts" : "rw,noatime,nodiratime,swalloc,attr2,inode64,allocsize=2048k,logbufs=8,logbsize=256k,noquota",
+           "UUID" : "0d78d814-5822-4a42-bee5-91e6230e9dc8",
+           "mode" : "1777",
+           "fstype" : "xfs",
+           "group" : 0,
+           "device" : "/dev/md14"
+        },
+  ]
+ }
+}

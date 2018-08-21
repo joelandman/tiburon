@@ -1,0 +1,138 @@
+MENU TITLE  Tiburon v0.4
+
+#default suse10.2inst
+default vesamenu
+
+label vesamenu
+	kernel vesamenu.c32
+
+label localboot
+	MENU boot from local hard disk
+	localboot 1
+
+label memtest
+	MENU LABEL memory test
+	kernel memdisk
+	append initrd=memtest.img
+
+label pxeknife
+	MENU LABEL additional diagnostic tools
+        kernel menu.c32
+        append pxeknife/pxeknife.conf
+
+label freedos
+	MENU LABEL DOS 
+	kernel memdisk
+	append initrd=/fdboot.img
+
+#LABEL Ubuntu-64bit-v7.04-diskless-v2
+#        MENU Ubuntu v7.04 x64 diskless-v2
+#        KERNEL vmlinuz-2.6.21.3-scalable
+#        APPEND root=/dev/nfs initrd=initrd.img-2.6.21.3-scalable-diskless nfsroot=192.168.1.2:/data/tiburon/OS/diskless_ubuntu_7.04_x86 ip=dhcp rw
+
+#LABEL SuSE10.2x86_64-install
+#        MENU SuSE 10.2 x86_64 install
+#        KERNEL suse-10.2-x86-64
+#        APPEND initrd=suse-10.2-x86-64-initrd nfsdir=192.168.1.2:/data/tiburon/OS/_os_/ ramdisk_size=65536 install=http://192.168.1.2:16160/suse10.2 debug verbose
+
+LABEL SuSE10.3_x64-install
+        MENU SuSE 10.3 x64 install
+        KERNEL /suse/10.3/linux
+        APPEND initrd=/suse/10.3/initrd ramdisk_size=65536 install=http://192.168.5.117/opensuse10.3/ debug verbose
+
+LABEL SuSE11_x64-install
+        MENU SuSE 11 x64 install
+        KERNEL /suse/11/linux
+        APPEND initrd=/suse/11/initrd ramdisk_size=65536 nfsdir=192.168.5.117:/big/install/opensuse11/ debug verbose
+
+LABEL SuSE11.1_x64-install
+        MENU SuSE 11.1 x64 install
+        KERNEL /suse/11.1/linux
+        APPEND initrd=/suse/11.1/initrd ramdisk_size=65536 nfsdir=192.168.5.117:/big/install/opensuse11.1/ debug verbose
+
+LABEL RHEL5.2x64
+	MENU Redhat/Centos 5.2 x64
+	kernel RHEL5.2/x64/vmlinuz
+	append initrd=RHEL5.2/x64/initrd.img 
+
+LABEL RHEL5.2x64_text
+        MENU Redhat/Centos 5.2 x64 text
+        kernel RHEL5.2/x64/vmlinuz
+        append initrd=RHEL5.2/x64/initrd.img text
+
+LABEL RHEL5.2x64_rescue
+        MENU Redhat/Centos 5.2 x64 rescue
+        kernel RHEL5.2/x64/vmlinuz
+        append initrd=RHEL5.2/x64/initrd.img rescue
+
+LABEL Centos 5.5x64 Install
+        MENU Centos 5.5 x64 
+        kernel centos5/vmlinuz
+        append initrd=centos5/initrd.img 
+
+LABEL Centos 5.5x64 Install JackRabbit Automatic
+        MENU Centos 5.5 x64 Install JackRabbit Automatic
+        kernel centos5/vmlinuz
+        append initrd=centos5/initrd.img  text xfs nodmraid brokenmodules=dm_mod,dm_mirror,dm_snapshot,dm_raid45 initrd=centos5/initrd.img ramdisk_size=50000 nfsroot=192.168.5.117:/big/install/centos5.5_x64/  ks=http://192.168.5.117/storage-node-5.5.ks.cfg
+
+LABEL Centos 5.5x64 Rescue
+        MENU Centos 5.5 x64 
+        kernel centos5/vmlinuz
+        append initrd=centos5/initrd.img rescue
+	
+	
+label	rocks-5.1
+	menu rocks-5.1
+	kernel rocks-5.1/vmlinuz
+	append ramdisk_size=150000 initrd=rocks-5.1/initrd.img verbose devfs=nomount  kssendmac selinux=0 frontend build nowatchdog nfsroot=192.168.5.117:/big/install/rocks-5.1 ks=http://192.168.5.117:10001/ks.cfg
+
+LABEL Erase disks (DBAN 1.07)
+        kernel memdisk
+        append initrd=dban/dban_1_0_7_i386.ima
+
+LABEL DOS2
+	MENU dos2
+	kernel memdisk
+	append initrd=/dos/dosboot.img
+
+LABEL Knoppix
+	MENU knoppix
+	KERNEL memdisk.new
+	APPEND initrd=knoppix/KNOPPIX_V5.1.1CD-2007-01-04-EN.iso
+	
+LABEL diskless_ubuntu
+	menu label diskless Ubuntu
+	kernel vmlinuz-2.6.24-21-generic
+	append root=/dev/nfs initrd=initrd.img-2.6.24-21-generic-nfsboot nfsroot=192.168.5.117:/big/diskless ip=dhcp rw verbose 
+
+LABEL Motherboard Bios Update
+        menu Motherboard Bios Update
+        kernel memdisk
+        append initrd=biosupdate/10MB-hard-disk-dos-bootable-disk.img
+	
+LABEL iscsi boot
+	menu iscsi boot
+	kernel iscsi/vmlinuz-2.6.18-194.el5
+	append initrd=iscsi/initrd-2.6.18-194.el5.img root=LABEL=/ verbose debug ramdisk_size=50000 
+
+LABEL iscsi boot_updated
+	menu iscsi boot_updated
+	kernel iscsi/vmlinuz-2.6.35.2.scalable
+	append initrd=iscsi/initrd-2.6.35.2.scalable.img root=LABEL=/ verbose debug ramdisk_size=50000 
+
+LABEL iscsi boot_not_working
+	menu iscsi boot not_working
+	kernel /undionly.0
+	#append sanboot iscsi:192.168.5.117::::iqn.2010-08.com.scalableinformatics.tiburon:boot
+
+
+PROMPT 1
+#MENU BACKGROUND pxelinux.cfg/si.png
+NOESCAPE 0
+ALLOWOPTIONS 1
+timeout 600
+
+menu color title         1;31;49    #eeff1010 #cc553333 std
+menu color sel           7;37;40    #ff000000 #bbaa9999 all
+menu color border        30;44      #ffffffff #00000000 std
+menu color pwdheader     31;47      #eeff1010 #20ffffff std 

@@ -1,0 +1,54 @@
+<%args>
+$boot_info      => undef,
+$firstboot      => undef,
+$whois		=> undef,
+$vlan		=> undef
+</%args>
+<%perl>
+my (@bootserv,@client,@_a,@_b,$_k,$_i);
+</%perl>
+#!ipxe
+
+
+% if ($firstboot) {
+ifopen net0
+
+dhcp net0 || goto net1
+ifstat
+chain http://<% $boot_info->{boot_server} %>/boot/${net0/mac}
+goto dhcpdone
+:net1
+ifclose net0
+ifopen net1
+dhcp net1
+ifstat
+chain http://<% $boot_info->{boot_server} %>/boot/${net1/mac}
+
+:dhcpdone
+
+%  }
+% else
+%  {
+
+% if (!defined($boot_info->{'sanboot'})) {
+% $boot_info->{'boot_server'} .= ":" if ( $boot_info->{'boot_server'} !~ /:/);
+% if ($boot_info->{'kernel'}) {
+% $_k = (reverse split(/\//,$boot_info->{'kernel'}))[0]; 
+% $_k =~ s/\#//g;
+% }
+
+% if ($boot_info->{'initrd'}) {
+% $_i = (reverse split(/\//,$boot_info->{'initrd'}))[0]; 
+% $_i =~ s/\#//g;
+% }
+imgfetch  <% $boot_info->{'kernel'} %>
+imgfetch  <% $boot_info->{'initrd'} %>
+imgstat
+kernel <% $_k %> <% $boot_info->{'boot_args'} %>
+initrd <% $_i %>
+% } else {
+sanboot <% $boot_info->{'sanboot'} %>
+% }
+boot
+% }
+

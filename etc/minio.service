@@ -1,0 +1,12 @@
+[Unit]
+Description=Start minio server daemon
+After=network.target
+
+[Service]
+WorkingDirectory=/data/tiburon/objstor
+ExecStart=/data/tiburon/objstor/start_minio.bash
+User=minio
+Group=minio
+
+[Install]
+WantedBy=multi-user.target 

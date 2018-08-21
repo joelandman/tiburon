@@ -1,0 +1,39 @@
+{
+   "servers" : {
+      "boot"    : "192.168.1.250:27182",
+      "default" : "192.168.1.250:27182",
+      "image"   : "http://192.168.1.250:10080/",
+      "config"  : "http://192.168.1.250:10090/",
+      "object-store" : "http://192.168.1.224:19080/images/"
+   },
+   "targets" : {
+    "nyble" : {
+     "C7_4.17.9" : {
+        "boot_args" : "root=ram console=tty0 console=ttyS1,115200n8 rootfstype=ramdisk verbose udev.children-max=4 machine-id reset.journal disablettyS2=1 br_name=br_lab br_if=enp98s0f0,enp98s0f1,eth0,eth1 rootauthorizedkeys=__servers.config__/MachineAdmin/authorized_keys runscript=__servers.config__/MachineConfig/postboot.sh ",
+         "boot_protocol" : "kernel",
+         "boot_server" : "__servers.default__",
+         "initrd" : "__servers.image__/nyble/CentOS7.5/initramfs-4.17.9.nlytiq.img",
+         "kernel" : "__servers.image__/nyble/CentOS7.5/vmlinuz-4.17.9.nlytiq"
+     },
+     "C7_4.18.2" : {
+        "boot_args" : "root=ram console=tty0 console=ttyS1,115200n8 rootfstype=ramdisk verbose udev.children-max=4 machine-id reset.journal disablettyS2=1 br_name=br_lab br_if=enp98s0f0,enp98s0f1,eth0,eth1 rootauthorizedkeys=__servers.config__/MachineAdmin/authorized_keys runscript=__servers.config__/MachineConfig/postboot.sh ",
+         "boot_protocol" : "kernel",
+         "boot_server" : "__servers.default__",
+         "initrd" : "__servers.object-store__/20180819/initramfs-4.18.2.nlytiq.img",
+         "kernel" : "__servers.object-store__/20180819/vmlinuz-4.18.2.nlytiq"
+     }
+    }
+   },
+   "machines" : {
+      "default" : {
+         "type" : "nyble",
+	 "name" : "C7_4.18.2"
+      },
+      "ac:1f:6b:0a:39:40" : {
+         "type" : "nyble",
+         "name" : "C7_4.17.9",
+         "label": "GPU",
+         "box"  : "GPGPU deskside"
+      },
+   },
+}
