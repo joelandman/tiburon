@@ -1,0 +1,12 @@
+[Unit]
+Description=Start boot server daemon
+After=network.target
+
+[Service]
+WorkingDirectory=/data/tiburon/bootapp
+ExecStart=/data/tiburon/bootapp/boot.pl
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target 

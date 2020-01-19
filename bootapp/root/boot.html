@@ -6,9 +6,9 @@ $vlan		=> undef
 </%args>
 <%perl>
 my (@bootserv,@client,@_a,@_b,$_k,$_i);
+use Data::Dumper;
 </%perl>
 #!ipxe
-
 
 % if ($firstboot) {
 ifopen net0
@@ -31,7 +31,7 @@ chain http://<% $boot_info->{boot_server} %>/boot/${net1/mac}
 %  {
 
 % if (!defined($boot_info->{'sanboot'})) {
-% $boot_info->{'boot_server'} .= ":" if ( $boot_info->{'boot_server'} !~ /:/);
+% #$boot_info->{'boot_server'} .= ":" if ( $boot_info->{'boot_server'} !~ /:/);
 % if ($boot_info->{'kernel'}) {
 % $_k = (reverse split(/\//,$boot_info->{'kernel'}))[0]; 
 % $_k =~ s/\#//g;

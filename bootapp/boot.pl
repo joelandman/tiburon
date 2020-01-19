@@ -2,6 +2,7 @@
 
 use feature ':5.22';
 use Mojolicious::Lite;
+use Mojo::Util qw(url_unescape);
 use File::ChangeNotify;
 
 use strict;
@@ -29,9 +30,12 @@ my $watcher =
         );
 
 
-$config = Config::JSON->new($config_file);
+$config 	= Config::JSON->new($config_file);
 $machines	= $config->get("machines");
 $servers 	= $config->get("servers");
+
+#printf STDERR "Dump: %s\n",Dumper($servers);
+
 $debug		= true;
 
 
@@ -40,7 +44,7 @@ $debug		= true;
 
 foreach $mac (keys %{$machines})
  {
-  printf "machine: %s\n",$mac;
+  printf "machine: %s (len=%i), type: %s, name: %s\n",$mac,length($mac),$machines->{$mac}->{'type'},$machines->{$mac}->{'name'};
   $macs->{lc($mac)} = $mac; # use only lower case in the search
  } 
 
@@ -103,12 +107,17 @@ get '/boot' => sub {
 
 get '/boot/:mac' => sub {
   my $self = shift;
-  my $mac  = $self->param('mac');
+  my $m  = $self->param('mac');
   my ($target,$boot_server,$ip,$boot_protocol,$netmask,$gateway);
   my ($kernel, $initrd, $boot_args, $state, $inst_image, $k, $v, $k2, $s);
   my $whois     = $self->whois;
 
-  printf STDERR "mac -> %s\n",$mac;
+  # unescape mac
+  my $mac = lc(url_unescape $m);
+  $mac =~ s/^\s{1,}//g;
+  $mac =~ s/\s{1,}$//g;
+
+  printf STDERR " incoming m ->%s\n\tmac -> %s\n",$m,$mac;
   $self->redirect_to("/") if (!$mac);
   $state	= "";
   &check_config_for_changes();
@@ -119,10 +128,15 @@ get '/boot/:mac' => sub {
   
   $mac =~ s/^mac=// if ($mac);
   
-  $type = ( $mac && (exists($machines->{lc($mac)} )) ? $machines->{$mac}->{'type'} : $machines->{'default'}->{'type'} );
-  $name = ( $mac && (exists($machines->{lc($mac)} )) ? $machines->{$mac}->{'name'} : $machines->{'default'}->{'name'} );
+  $type = ( exists($machines->{$mac} ) ? $machines->{$mac}->{'type'} : $machines->{'default'}->{'type'} );
+  $name = ( exists($machines->{$mac} ) ? $machines->{$mac}->{'name'} : $machines->{'default'}->{'name'} );
+
+  printf STDERR " - mac=%s (len=%i), type=%s, name=%s\n",$mac,length($mac),$type,$name;
+  printf STDERR "  : exists=%s\n",(exists($machines->{$mac}) ? "true" : "false");
  
   $boot_info = $targets->{$type}->{$name} ;
+  #printf STDERR " - Dump of bootinfo\n\t%s\n",Dumper($boot_info);
+  #printf STDERR " - Dump of targets\n\t%s\n",Dumper($targets);
    
   # update boot_info with any replacement values of __server.key__
   foreach $k (keys %{$servers}) {
