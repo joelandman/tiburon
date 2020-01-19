@@ -4,6 +4,8 @@ use feature ':5.22';
 use Mojolicious::Lite;
 use Mojo::Util qw(url_unescape);
 use File::ChangeNotify;
+use Getopt::Long;
+
 
 use strict;
 use warnings;
@@ -17,40 +19,65 @@ use Crypt::PRNG qw(random_string_from rand irand);
 
 
 use constant {true => (1==1),  false => (1==0) };
-my $config_file	= '/data/tiburon/etc/boot.json';
+use constant vers => "2020.01";
 
-my ($config,$machines,$mac,$macs,$install,$targets,$type,$name);
-my ($boot_info,$debug,$servers);
+my $dir = '/data/tiburon/etc';
+my $dbfile = 'boot.json';
 
-my $watcher = 
+my ($config,$machines,$mac,$macs,$install,$targets,$type,$name,$c_file);
+my ($boot_info,$debug,$servers,$verbose,$version,$listen,$config_file);
+my ($bootargs);
+
+$config_file	= sprintf "%s/%s", $dir,$dbfile;
+$debug = $verbose = $version = false;
+$listen = 'http://*:27182';
+
+GetOptions(
+						"debug|d" 		=> \$debug,
+						"verbose|v"		=> \$verbose,
+						"config|c=s"		=> \$c_file,
+						"version|V"		=> \$version,
+						"listen=s"		  => \$listen,
+						"dir=s"					=> \$dir,
+						"dbfile|db=s"		=> \$dbfile
+					);
+
+$config_file = $c_file if (defined($c_file));
+
+
+
+if ($version) {
+	printf "Tiburon boot application, version=%s\n",vers;
+	exit 0;
+}
+
+$verbose = true if ($debug);
+
+my $watcher =
         File::ChangeNotify->instantiate_watcher
-	( 
-	  directories => [ '/data/tiburon/etc/' ],
-          filter      => qr/boot\.json/
+	(
+	  directories => [ $dir ],
+          filter      => qr/$dbfile/
         );
 
 
 $config 	= Config::JSON->new($config_file);
 $machines	= $config->get("machines");
 $servers 	= $config->get("servers");
+$bootargs	= $config->get("bootargs");
 
-#printf STDERR "Dump: %s\n",Dumper($servers);
-
-$debug		= true;
-
-
-
-
+printf STDERR "Dump: %s\n",Dumper($servers) if ($debug);
+printf STDERR "listen: %s\n",$listen;
 
 foreach $mac (keys %{$machines})
  {
-  printf "machine: %s (len=%i), type: %s, name: %s\n",$mac,length($mac),$machines->{$mac}->{'type'},$machines->{$mac}->{'name'};
+  printf "machine: %s (len=%i), type: %s, name: %s\n",$mac,length($mac),$machines->{$mac}->{'type'},$machines->{$mac}->{'name'} if ($debug);
   $macs->{lc($mac)} = $mac; # use only lower case in the search
- } 
+ }
 
 my $comp_root   = POSIX::getcwd;
-plugin 'Mason1Renderer' => 
-  { 
+plugin 'Mason1Renderer' =>
+  {
      interp_params  => { comp_root => File::Spec->catfile($comp_root,"root") },
      request_params => { error_format => "brief" }
   };
@@ -65,7 +92,7 @@ helper whois => sub {
                   agent         => $agent,
                   ip            => $ip,
                   local_address => $lip,
-                  secure        => $secure 
+                  secure        => $secure
                 };
     return $ret;
   };
@@ -77,20 +104,15 @@ get '/' => sub {
   my ($k,$v,$s,$k2);
   my $whois     = $self->whois;
   &check_config_for_changes();
-  
+
   $type = $machines->{'default'}->{'type'};
   $name = $machines->{'default'}->{'name'};
   $boot_info = $targets->{$type}->{$name} ;
-  
-  # update boot_info with any replacement values of __server.key__
-  foreach $k (keys %{$servers}) {
-	$s = sprintf "__servers.%s__",$k;
-	$v = $servers->{$k};
-	foreach $k2 (keys %{$boot_info}) {
-	   printf STDERR " -: %s -> %s\n",$s,$v if ($boot_info->{$k2} =~ s/$s/$v/g);
-	}
-  }
- 
+
+	&update_bootinfo();
+
+
+
   $self->render(
                 'boot.html',
                 handler         => "mason",
@@ -121,35 +143,29 @@ get '/boot/:mac' => sub {
   $self->redirect_to("/") if (!$mac);
   $state	= "";
   &check_config_for_changes();
-   
+
   # search for the mac address ... if found, get the info
   # if not found, then hand it good defaults based upon the
   # default entry
-  
+
   $mac =~ s/^mac=// if ($mac);
-  
+
   $type = ( exists($machines->{$mac} ) ? $machines->{$mac}->{'type'} : $machines->{'default'}->{'type'} );
   $name = ( exists($machines->{$mac} ) ? $machines->{$mac}->{'name'} : $machines->{'default'}->{'name'} );
 
-  printf STDERR " - mac=%s (len=%i), type=%s, name=%s\n",$mac,length($mac),$type,$name;
-  printf STDERR "  : exists=%s\n",(exists($machines->{$mac}) ? "true" : "false");
- 
+  printf STDERR " - mac=%s (len=%i), type=%s, name=%s\n",$mac,length($mac),$type,$name if ($debug);
+  printf STDERR "  : exists=%s\n",(exists($machines->{$mac}) ? "true" : "false") if ($verbose);
+
   $boot_info = $targets->{$type}->{$name} ;
   #printf STDERR " - Dump of bootinfo\n\t%s\n",Dumper($boot_info);
   #printf STDERR " - Dump of targets\n\t%s\n",Dumper($targets);
-   
+
   # update boot_info with any replacement values of __server.key__
-  foreach $k (keys %{$servers}) {
-        $s = sprintf "__servers.%s__",$k;
-        $v = $servers->{$k};
-        foreach $k2 (keys %{$boot_info}) {
-           printf STDERR " -: %s -> %s\n",$s,$v if ($boot_info->{$k2} =~ s/$s/$v/g);
-        }  
-  }
- 
+  &update_bootinfo();
+
   $self->render(
-		'boot.html', 
-		handler 	=> "mason", 
+		'boot.html',
+		handler 	=> "mason",
 		boot_info	=> $boot_info,
 		firstboot	=> 0,
 		whois		=> $whois
@@ -159,7 +175,8 @@ get '/boot/:mac' => sub {
 
 &set_secure_cookie();
 app->sessions->default_expiration(1); # set expiry to 1 hour
-app->start(qw(daemon --listen http://*:27182));
+my @args = ("daemon", "--listen", $listen);
+app->start(@args);
 
 sub set_secure_cookie {
   # generate a secure cookie secret
@@ -177,6 +194,34 @@ sub check_config_for_changes {
         $config = Config::JSON->new($config_file);
      }
   $machines     = $config->get("machines");
-  $targets      = $config->get("targets"); 
-  $servers	= $config->get("servers"); 
+  $targets      = $config->get("targets");
+  $servers			= $config->get("servers");
+	$bootargs			= $config->get("bootargs");
+
+}
+
+sub update_bootinfo {
+
+  my ($k,$v,$s,$k2);
+
+	# update boot_info with any replacement values of __bootargs.key__
+	foreach $k (keys %{$bootargs}) {
+		$s = sprintf "__bootargs.%s__",$k;
+		$v = $bootargs->{$k};
+		foreach $k2 (keys %{$boot_info}) {
+			 printf STDERR " -: %s -> %s\n",$s,$v if ($boot_info->{$k2} =~ s/$s/$v/g);
+		}
+	}
+
+
+  # update boot_info with any replacement values of __server.key__
+  foreach $k (keys %{$servers}) {
+	  $s = sprintf "__servers.%s__",$k;
+	  $v = $servers->{$k};
+		foreach $k2 (keys %{$boot_info}) {
+		   printf STDERR " -: %s -> %s\n",$s,$v if ($boot_info->{$k2} =~ s/$s/$v/g);
+		}
+  }
+
+
 }

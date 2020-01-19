@@ -6,6 +6,16 @@
       "config"  : "http://10.10.0.250:10080",
       "lab-canton" : "http://10.10.0.250:10080"
    },
+	 "bootargs" : {
+		 "ramboot" : "root=ram rootfstype=ramdisk ramdisksize=8 udev.children-max=4 machine-id reset.journal",
+		 "ipmi-console" : "console=tty0 console=ttyS1,115200n8",
+		 "vm-console" : "console=tty0 console=ttyS0",
+		 "compressed-ramdisk" : "ramdisktype=zram ",
+		 "nyble-pass" : "rootpw=nyble",
+		 "network"	: "simplenet=1",
+		 "rootkeys" : "rootauthorizedkeys=__servers.config__/keys/authorized_keys",
+		 "postboot-runscript" : "runscript=__servers.config__/postboot/postboot.sh"
+	 },
    "targets" : {
     "nyble" : {
      "debian9-hw" : {
@@ -17,6 +27,13 @@
      },
      "ubuntu18.04-hw" : {
         "boot_args" : "root=ram console=tty0 console=ttyS1,115200n8 rootfstype=ramdisk verbose udev.children-max=2 machine-id reset.journal simplenet=1 rootauthorizedkeys=__servers.config__/keys/authorized_keys runscript=__servers.config__/postboot/postboot.sh ",
+         "boot_protocol" : "kernel",
+         "boot_server" : "__servers.default__",
+         "initrd" : "__servers.lab-canton__/nyble/ubuntu18.04/initramfs-ramboot-4.15.0-1045-oem",
+         "kernel" : "__servers.lab-canton__/nyble/ubuntu18.04/vmlinuz-4.15.0-1045-oem",
+     },
+		 "ubuntu18.04-vm" : {
+        "boot_args" : "__bootargs.ramboot__ __bootargs.vm-console__ __bootargs.network__ __bootargs.rootkeys__  __bootargs.postboot-runscript__ ",
          "boot_protocol" : "kernel",
          "boot_server" : "__servers.default__",
          "initrd" : "__servers.lab-canton__/nyble/ubuntu18.04/initramfs-ramboot-4.15.0-1045-oem",
@@ -34,7 +51,7 @@
    "machines" : {
       "default" : {
          "type" : "nyble",
-	 "name" : "ubuntu18.04-hw",
+	 "name" : "ubuntu18.04-vm",
       },
      "00:25:90:62:86:50x" : {
          "type" : "nyble",
