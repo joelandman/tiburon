@@ -1,0 +1,76 @@
+Pre-requisites: 
+	1) a working internet connection
+	2) ability to reach cpan.org from this machine
+	3) perl language installed
+
+If you must run this disconnected, please open an issue on the issue tracker.
+
+
+
+1st: Create directories, users, groups as needed.  Do not run as root or
+     a priveledged user/group.
+
+     Details are left to the reader, though we recommend
+
+	run directory = /data/tiburon/bootapp
+	user	      = www-data
+	group	      = www-data
+
+     You can check the existence of these user/group with
+
+	getent passwd | grep 'www-data'
+	getent group  | grep 'www-data'
+
+     You can create the directory with
+
+	sudo mkdir -p /data/tiburon/bootapp
+
+     and then move all the needed files into that location
+
+	sudo cp -rv boot.pl root/ /data/tiburon/bootapp
+
+     and set the ownership to www-data
+
+	sudo chown -R www-data:www-data /data/tiburon/bootapp
+
+
+2nd: install perl modules.  You may need to do this as admin user
+
+	sudo ./install_perl_mods.pl
+
+     This will install all the needed perl modules for you from the public 
+     CPAN repositories.
+
+
+3rd:  test the boot.pl app
+
+	
+	perl -c /data/tiburon/bootapp/boot.pl
+
+     change the path as needed to reflect where you moved it.  If
+     any modules are missing, you will get messages to that effect.
+     If you have all the modules you need then it will respond
+
+	/data/tiburon/bootapp/boot.pl syntax OK
+
+
+4th:  configure the service
+
+	sudo ./configure_boot_service.pl \
+		-b /data/tiburon/bootapp/boot.pl 	\
+		-r /data/tiburon/bootapp/		\
+		-svc tiburon_boot.service		\
+		-sdp /etc/systemd/system
+
+      This will generate the service file for you at 
+      /etc/systemd/system/tiburon_boot.service.  We would recommend editing
+      that file to add any command line options you wish.
+
+      Then you will need to enable that service
+
+	sudo systemctl daemon-reload
+	sudo systemctl enable tiburon_boot.service
+
+      You can start the service to make sure it loads correctly.
+
+	sudo systemctl start tiburon_boot.service
